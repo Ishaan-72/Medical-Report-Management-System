@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <div class = "login-container">
+    <div id= "main">
+      <h1>Enter email and password</h1>
+      <form action="/login" method="post">
+        {% csrf_token %}
+      <input id = "loginemail" type = "text" placeholder = "Email" name="loginemail"></input>
+      <input id = "loginpassword" type = "password" placeholder = "Password" name="loginpassword"></input>
+      <button id = "submit">Login</button>
+      </form>
+      <p><span>or</span></p>
+      <button id = "sign-up">Sign Up</button>
+    </div>
+
+    <div id = "create-acct">
+      <h1>Create an Account</h1>
+      <form action="/signup" method="post">
+        {% csrf_token %}
+      <input id = "emailsignup" type = "email" placeholder = "Email *" name='emailsignup'></input>
+  <input id = "confirmemailsignup" type = "email" placeholder = "Confirm Email *" name='confirmemailsignup'></input>
+      <input id = "passwordsignup" type = "password" placeholder = "Password *" name='passwordsignup'></input>
+      <input id = "confirmpasswordsignup" type = "password" placeholder = "Confirm Password *" name='confirmpasswordsignup'></input>
+      <button id = "submit">Create Account</button>
+      </form>
+      <button id = "return-btn">Return to Login</button>
+    </div>
+  </div>
+  <script src="{% static 'js/auth.js' %}"></script>
+</body>
+</html>
+

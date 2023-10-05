@@ -1,0 +1,55 @@
+<<!DOCTYPE html>
+<html>
+<head>
+    <title>Predictors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            position: relative; /* Required for pseudo-element positioning */
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://source.unsplash.com/collection/21094506');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(3px); /* Apply a blur effect to the pseudo-element */
+            z-index: -1; /* Ensure the pseudo-element is behind the content */
+        }
+
+        h1 {
+            margin-top: 50px;
+            color: #ddd;
+        }
+
+        .link {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+
+        .link:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Predictors</h1>
+    <a class="link" href="http://localhost:8502/">Predictor using symptoms</a>
+    <a class="link" href="http://localhost:8501/">Diabetes predictor</a>
+    <a class="link" href="http://localhost:8503/">Predictor from labarotary report</a>
+</body>
+</html>

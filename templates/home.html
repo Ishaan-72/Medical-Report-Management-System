@@ -1,0 +1,198 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Medical Report Manager</title>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1 class="main-heading">Medical Report Manager</h1>
+    <nav>
+      <ul>
+        <li><a href="http://127.0.0.1:8000/user_reports">Predictor</a></li>
+        <li><a href="http://127.0.0.1:8000/about">About</a></li>
+        {% if user.is_authenticated %}
+  <li>Welcome {{request.user}}</li>
+  <li><a href="/logout">Logout</a></li>
+  {% endif %}
+      </ul>
+    </nav>
+  </header>
+
+
+  
+
+  <main>
+    <div class="form-container">
+      <form id="report-form" enctype="multipart/form-data" method="post" action="/postreport">
+        {% csrf_token %}
+        <label for="patient-name">Patient Name:</label>
+        <input type="text" id="patientname" name="patientname" >
+
+        <label for="doctor-name">Doctor Name:</label>
+        <input type="text" id="doctorname" name="doctorname" >
+
+        <label for="report-date">Report Date:</label>
+        <input type="date" id="reportdate" name="reportdate" >
+
+        <label for="report-file">Report File:</label>
+        <input type="file" id="reportfile" name="reportfile" accept=".jpg,.png,.jpeg" >
+
+        <button type="submit">Save Report</button>
+        <button type="reset">Reset</button>
+      </form>
+    </div>
+    <div class="reports-container">
+      <h2>Reports</h2>
+      <ul id="report-list"></ul>
+    </div>
+    
+
+    <div class="report-section">
+        <h2>2023</h2>
+        <div class="sort-container">
+          <label for="sort-select">Sort by:</label>
+          <select id="sort-select">
+            <option value="patientname">Patient Name</option>
+            <option value="doctorname">Doctor Name</option>
+            <option value="reportdate">Report Date</option>
+          </select>
+        </div>
+        <table id="report-table">
+          <tr>
+            <th>Patient name</th>
+            <th>Doctor name</th>
+            <th>Date</th>
+            <th>Action</th>
+            <th>Delete Report</th>
+          </tr>
+          {% for x in data %}
+          <tr>
+            <td>{{x.patientname}}</td>
+            <td>{{x.doctorname}}</td>
+            <td>{{x.reportdate}}</td>
+            <td>
+              <button class="open-dialog-btn">View Report</button>
+              <div class="report-dialog">
+                <div class="report-content">
+                  <!-- Report content goes here -->
+          <img src="http://127.0.0.1:8000/media/{{x.image}}" alt="image here" width="200" height="200">
+                </div>
+                <button class="close-dialog-btn">Close</button>
+              </div>
+            </td>
+            <td><button onclick="deletefile('{{x.id}}')">Delete
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+          <!-- Additional rows for 2023 reports -->
+        </table>
+      </div>
+  </main>
+  <footer>
+    <p>Copyright © 2023 Medical Report Manager.
+  </footer>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
+<script>
+
+
+    function deletefile(x){
+      console.log(x);
+      $.ajax({
+        method:"POST",
+        url:'/deletereport',
+        headers: {
+          "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        data:{
+          report_id:x
+        },
+        success:function(res){
+          // console.log(res);
+          window.location.href='/'
+        },
+        error:function(res){
+          console.log(res);
+        }
+      })
+    }
+
+     $("#report-form").submit(function (e) {
+  e.preventDefault();
+  var form = $(this);
+  var formData = new FormData(form[0]); // Create FormData object from the form
+
+  $.ajax({
+    method: "POST",
+    url: "/postreport",
+    data: formData,
+    processData: false, // Prevent jQuery from processing the data
+    contentType: false, // Let the browser set the appropriate content type
+    headers: {
+      "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(),
+    },
+    success: function (res) {
+      // Handle the success response
+      window.location.href='/'
+    },
+    error: function (err) {
+      console.log(err);
+    },
+  });
+});
+
+</script>
+<script>
+  $(document).ready(function() {
+    $("#sort-select").change(function() {
+      const selectedOption = $(this).val();
+      sortReports(selectedOption);
+    });
+
+    function sortReports(option) {
+      const rows = $("#report-table tbody tr").get();
+
+      rows.sort(function(rowA, rowB) {
+        const cellA = $(rowA).children(`td:nth-child(${optionIndex[option]})`).text().toLowerCase();
+        const cellB = $(rowB).children(`td:nth-child(${optionIndex[option]})`).text().toLowerCase();
+
+        if (option === "reportdate") {
+          // Convert date strings to Date objects for proper comparison
+          const dateA = new Date(cellA);
+          const dateB = new Date(cellB);
+          
+          if (dateA < dateB) {
+            return 1;
+          }
+          if (dateA > dateB) {
+            return -1;
+          }
+          return 0;
+        }
+
+        if (cellA < cellB) {
+          return -1;
+        }
+        if (cellA > cellB) {
+          return 1;
+        }
+        return 0;
+      });
+
+      $("#report-table tbody").empty().append(rows);
+    }
+
+    const optionIndex = {
+      patientname: 1,
+      doctorname: 2,
+      reportdate: 3,
+    };
+  });
+</script>

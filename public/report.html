@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Medical Report Manager</title>
+  <link rel="stylesheet" type="text/css" href="stylere.css">
+</head>
+<body>
+  <header>
+    <h1 class="main-heading">Medical Report Manager</h1>
+    <nav>
+      <ul>
+        <li><a href="#">Predictor</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  
+
+  <main>
+    <div class="form-container">
+      <form id="report-form" enctype="multipart/form-data">
+        <label for="patient-name">Patient Name:</label>
+        <input type="text" id="patient-name" name="patient-name" required>
+
+        <label for="doctor-name">Doctor Name:</label>
+        <input type="text" id="doctor-name" name="doctor-name" required>
+
+        <label for="report-date">Report Date:</label>
+        <input type="date" id="report-date" name="report-date" required>
+
+        <label for="report-file">Report File:</label>
+        <input type="file" id="report-file" name="report-file" accept=".pdf,.doc,.docx,.txt" required>
+
+        <button type="submit">Save Report</button>
+        <button type="reset">Reset</button>
+      </form>
+    </div>
+    <div class="reports-container">
+      <h2>Reports</h2>
+      <ul id="report-list"></ul>
+    </div>
+    
+
+    <div class="report-section">
+        <h2>2023</h2>
+        <table>
+          <tr>
+            <th>Report Title</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>Report Title 1</td>
+            <td>2023-01-01</td>
+            <td>
+              <button class="open-dialog-btn">View Report</button>
+              <div class="report-dialog">
+                <div class="report-content">
+                  <!-- Report content goes here -->
+                </div>
+                <button class="close-dialog-btn">Close</button>
+              </div>
+            </td>
+          </tr>
+          <!-- Additional rows for 2023 reports -->
+        </table>
+      </div>
+      
+      <div class="report-section">
+        <h2>2022</h2>
+        <table>
+          <tr>
+            <th>Report Title</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>Report Title 1</td>
+            <td>2022-01-01</td>
+            <td>
+              <button class="open-dialog-btn">View Report</button>
+              <div class="report-dialog">
+                <div class="report-content">
+                  <!-- Report content goes here -->
+                </div>
+                <button class="close-dialog-btn">Close</button>
+              </div>
+            </td>
+          </tr>
+          <!-- Additional rows for 2022 reports -->
+        </table>
+      </div>
+      
+      <div class="report-section">
+        <h2>2021</h2>
+        <table>
+          <tr>
+            <th>Report Title</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>Report Title 1</td>
+            <td>2021-01-01</td>
+            <td>
+              <button class="open-dialog-btn">View Report</button>
+              <div class="report-dialog">
+                <div class="report-content">
+                  <!-- Report content goes here -->
+                </div>
+                <button class="close-dialog-btn">Close</button>
+              </div>
+            </td>
+          </tr>
+          <!-- Additional rows for 2021 reports -->
+        </table>
+      </div>
+      
+      
+  </main>
+  <footer>
+    <p>Copyright © 2023 Medical Report Manager.
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
